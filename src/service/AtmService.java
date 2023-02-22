@@ -1,5 +1,7 @@
 package atmApp.service;
 
+import atmApp.exceptions.InvalidParameterException;
+import atmApp.exceptions.NotFoundCustomerException;
 import atmApp.model.Customer;
 import static atmApp.util.InputUtil.*;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ public class AtmService {
         return money;
     }
 
-    public static void enterAtm() {
+    public static void enterAtm() throws NotFoundCustomerException, InvalidParameterException {
         Map<String, Customer> map = dataLoad();
         for (int i = 0; i < 3; i++) {
             String iban = inputTypeString("Enter the iban: ");
@@ -40,12 +42,12 @@ public class AtmService {
                 atmService(customer);
             }
             else {
-                System.out.println("\nWrong!");
+                throw new NotFoundCustomerException();
             }
         }
     }
 
-    public static void atmService(Customer customer) {
+    public static void atmService(Customer customer) throws InvalidParameterException {
         int enterMoney = inputTypeInt("Enter the money: ");
         int balance = customer.getMoney();
         if (enterMoney <= balance) {
@@ -63,7 +65,7 @@ public class AtmService {
             customer.setMoney(newBalance);
         }
         else {
-            System.out.println("\nWrong!");
+            throw new InvalidParameterException();
         }
     }
 }

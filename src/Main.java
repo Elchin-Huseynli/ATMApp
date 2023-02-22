@@ -1,3 +1,5 @@
+package atmApp;
+
 import atmApp.service.ManagementService;
 
 public class Main {
